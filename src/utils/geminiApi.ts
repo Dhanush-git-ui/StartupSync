@@ -30,8 +30,12 @@ export async function getGeminiResponse(
   conciseMode: boolean = false
 ): Promise<GeminiResponse> {
   try {
-    const API_KEY = "AIzaSyC5kCXT4A6fkmY0k6VD9ukCnZIXyJ3nN5c";
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+    const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+    if (!API_KEY) {
+      throw new Error("Gemini API key not configured in environment variables.");
+    }
+    // Using Gemini 2.5 Flash (latest)
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
     // Combine system prompt and user query into a single user message
     const systemPrompt = getSystemPromptForDomain(domain, outputFormat, conciseMode);
@@ -50,16 +54,16 @@ export async function getGeminiResponse(
       }
     };
 
-    console.log("Sending request to Gemini API:", {
-      domain,
-      outputFormat,
-      conciseMode,
-      temperature: conciseMode ? 0.3 : 0.7,
-      topK: conciseMode ? 10 : 40,
-      topP: conciseMode ? 0.7 : 0.95,
-      maxTokens: conciseMode ? 2048 : 8192
-    });
-    console.log("Payload:", JSON.stringify(payload));
+    // Remove console logs for production
+    if (import.meta.env.DEV) {
+      console.log("Sending request to Gemini API:", {
+        domain,
+        outputFormat,
+        conciseMode,
+        temperature: conciseMode ? 0.3 : 0.7,
+        maxTokens: conciseMode ? 2048 : 8192
+      });
+    }
 
     const response = await fetch(apiUrl, {
       method: "POST",
@@ -69,23 +73,30 @@ export async function getGeminiResponse(
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      if (response.status === 401) {
-        throw new Error("Authentication failed. Please check your API key.");
-      } else if (response.status === 429) {
-        throw new Error("Rate limit exceeded. Please try again later.");
-      } else {
-        console.error("Gemini API error response:", errorData);
-        throw new Error(`API error: ${response.status} ${response.statusText}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        if (response.status === 401) {
+          throw new Error("Authentication failed. Please check your API key.");
+        } else if (response.status === 429) {
+          throw new Error("Rate limit exceeded. Please try again later.");
+        } else {
+          if (import.meta.env.DEV) {
+            console.error("Gemini API error response:", errorData);
+          }
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
       }
-    }
 
     const data = await response.json();
-    console.log("Gemini API response received:", JSON.stringify(data));
+    
+    if (import.meta.env.DEV) {
+      console.log("Gemini API response received");
+    }
 
     if (!data.candidates || !data.candidates[0] || !data.candidates[0].content) {
-      console.error("Unexpected Gemini API response structure:", data);
+      if (import.meta.env.DEV) {
+        console.error("Unexpected Gemini API response structure:", data);
+      }
       throw new Error("Received empty or invalid response from Gemini API");
     }
 
@@ -103,7 +114,9 @@ export async function getGeminiResponse(
           // Remove the JSON block from the displayed response for cleaner output
           cleanedResponse = textResponse.replace(/```json\n[\s\S]*?\n```/, '');
         } catch (jsonError) {
-          console.warn("Failed to parse JSON output:", jsonError);
+          if (import.meta.env.DEV) {
+            console.warn("Failed to parse JSON output:", jsonError);
+          }
         }
       }
 
@@ -118,7 +131,9 @@ export async function getGeminiResponse(
         structuredOutput = validateAndEnhanceStructuredOutput(structuredOutput, outputFormat);
       }
     } catch (error) {
-      console.warn("Failed to process structured output:", error);
+      if (import.meta.env.DEV) {
+        console.warn("Failed to process structured output:", error);
+      }
     }
 
     return {
@@ -126,7 +141,9 @@ export async function getGeminiResponse(
       structuredOutput
     };
   } catch (error) {
-    console.error("Error calling Gemini API:", error.message);
+    if (import.meta.env.DEV) {
+      console.error("Error calling Gemini API:", error.message);
+    }
     throw error;
   }
 }

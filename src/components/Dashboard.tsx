@@ -38,8 +38,6 @@ const Dashboard = () => {
         <TabsList>
           <TabsTrigger value="agent">AI Agent</TabsTrigger>
           <TabsTrigger value="chat">Chat Assistant</TabsTrigger>
-          <TabsTrigger value="insights">Business Insights</TabsTrigger>
-          <TabsTrigger value="calendar">Calendar</TabsTrigger>
         </TabsList>
 
         {/* Agent Tab */}
@@ -125,18 +123,6 @@ const Dashboard = () => {
               </Card>
             </div>
           </div>
-        </TabsContent>
-
-        {/* Insights Tab */}
-        <TabsContent value="insights" className="focus:outline-none">
-          {/* TODO: Add Insights tab content here */}
-          <p>Insights feature coming soon...</p>
-        </TabsContent>
-
-        {/* Calendar Tab */}
-        <TabsContent value="calendar" className="focus:outline-none">
-          {/* TODO: Add Calendar tab content here */}
-          <p>Calendar feature coming soon...</p>
         </TabsContent>
       </Tabs>
     </div>

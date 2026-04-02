@@ -32,22 +32,31 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Product</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#features" onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/#features';
+                }} className="text-muted-foreground hover:text-foreground transition-colors">
                   Features
                 </a>
               </li>
               <li>
-                <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Button variant="link" onClick={() => window.location.href = '/pricing'} className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors">
                   Pricing
-                </a>
+                </Button>
               </li>
               <li>
-                <a href="#domains" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#domains" onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/#domains';
+                }} className="text-muted-foreground hover:text-foreground transition-colors">
                   Domain Experts
                 </a>
               </li>
               <li>
-                <a href="#testimonials" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#testimonials" onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/#testimonials';
+                }} className="text-muted-foreground hover:text-foreground transition-colors">
                   Testimonials
                 </a>
               </li>
@@ -58,24 +67,27 @@ const Footer = () => {
             <h3 className="font-semibold mb-4">Company</h3>
             <ul className="space-y-3">
               <li>
-                <a href="#about" className="text-muted-foreground hover:text-foreground transition-colors">
+                <Button variant="link" onClick={() => window.location.href = '/about'} className="p-0 h-auto text-muted-foreground hover:text-foreground transition-colors">
                   About Us
-                </a>
+                </Button>
               </li>
               <li>
-                <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">
+                <a href="#contact" onClick={(e) => {
+                  e.preventDefault();
+                  window.location.href = '/#contact';
+                }} className="text-muted-foreground hover:text-foreground transition-colors">
                   Contact
                 </a>
               </li>
               <li>
-                <a href="/blog" className="text-muted-foreground hover:text-foreground transition-colors">
+                <span className="text-muted-foreground transition-colors cursor-not-allowed opacity-50">
                   Blog
-                </a>
+                </span>
               </li>
               <li>
-                <a href="/career" className="text-muted-foreground hover:text-foreground transition-colors">
+                <span className="text-muted-foreground transition-colors cursor-not-allowed opacity-50">
                   Careers
-                </a>
+                </span>
               </li>
             </ul>
           </div>
@@ -86,15 +98,15 @@ const Footer = () => {
             © 2025 StartupSync. All rights reserved.
           </p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="/terms" className="text-sm text-muted-foreground hover:text-foreground">
+            <span className="text-sm text-muted-foreground cursor-not-allowed opacity-50">
               Terms
-            </a>
-            <a href="/privacy" className="text-sm text-muted-foreground hover:text-foreground">
+            </span>
+            <span className="text-sm text-muted-foreground cursor-not-allowed opacity-50">
               Privacy
-            </a>
-            <a href="/security" className="text-sm text-muted-foreground hover:text-foreground">
+            </span>
+            <span className="text-sm text-muted-foreground cursor-not-allowed opacity-50">
               Security
-            </a>
+            </span>
           </div>
         </div>
       </div>
