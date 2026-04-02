@@ -30,8 +30,12 @@ export async function fetchIndianBusinessNews(forceRefresh = false): Promise<New
   }
 
   try {
-    // NewsAPI.org API key - should be moved to environment variables in production
-    const API_KEY = 'YOUR_NEWS_API_KEY'; // Replace with actual API key
+    // NewsAPI.org API key - MUST be added to .env file
+    const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
+    
+    if (!API_KEY) {
+      throw new Error('News API key not configured. Please add VITE_NEWS_API_KEY to .env file');
+    }
     
     // Get current date and 7 days ago for the date range
     const today = new Date();

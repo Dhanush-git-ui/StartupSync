@@ -49,21 +49,10 @@ const ChatInterface = () => {
   const endOfMessagesRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  // Auto-scroll to the bottom when new messages arrive
   useEffect(() => {
+    // Auto-scroll to the bottom when new messages arrive
     endOfMessagesRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  useEffect(() => {
-    const loadConversationHistory = async () => {
-      try {
-      } catch (error) {
-        console.error("Error loading conversation history:", error);
-      }
-    };
-
-    loadConversationHistory();
-  }, []);
 
   const handleSendMessage = async () => {
     if (!inputValue.trim()) return;
@@ -81,7 +70,7 @@ const ChatInterface = () => {
 
     try {
       let assistantResponse = "";
-
+    
       if (conversationPhase === "greeting") {
         assistantResponse = "Hello! It's great to connect with you. How can I assist you today?";
         setConversationPhase("problem");
@@ -92,7 +81,7 @@ const ChatInterface = () => {
           .map((msg) => `${msg.role === "user" ? "User" : "Assistant"}: ${msg.content}`)
           .join("\n");
         const query = `${domainInstruction}\n\nConversation so far:\n${conversationContext}\n\nUser: ${inputValue}\nAssistant:`;
-
+    
         // Ensure the assistant works only within the selected domain
         if (selectedDomain) {
           const { response } = await getGeminiResponse(query, selectedDomain, "text", conciseMode);
@@ -100,7 +89,7 @@ const ChatInterface = () => {
         } else {
           assistantResponse = "Please select a valid domain to proceed.";
         }
-
+    
         setConversationPhase("response");
       } else {
         assistantResponse = "Let me know if there's anything else you'd like to discuss or explore.";
@@ -122,7 +111,9 @@ const ChatInterface = () => {
         description: "New insights are available in your chat.",
       });
     } catch (error) {
-      console.error("Error processing message:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error processing message:", error);
+      }
 
       const fallbackMessage: Message = {
         id: Date.now().toString(),
@@ -197,23 +188,25 @@ const ChatInterface = () => {
   };
 
   return (
-    <Card className="w-full h-full flex flex-col rounded-xl overflow-hidden border shadow-lg">
-      <div className="flex items-center justify-between bg-muted/40 p-4 border-b">
-        <div className="flex items-center gap-2">
-          <Brain className="h-5 w-5 text-primary" />
+    <Card className="w-full h-full flex flex-col rounded-2xl overflow-hidden border shadow-2xl card-hover">
+      <div className="flex items-center justify-between bg-gradient-to-r from-primary/5 via-secondary/5 to-primary/5 p-5 border-b">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-primary/10 rounded-xl">
+            <Brain className="h-6 w-6 text-primary" />
+          </div>
           <div>
-            <h2 className="font-semibold">AI Co-Founder Chat</h2>
-            <p className="text-xs text-muted-foreground">Powered by Gemini 1.5 with domain-specific expertise</p>
+            <h2 className="font-semibold text-lg">AI Co-Founder Chat</h2>
+            <p className="text-xs text-muted-foreground">Powered by Gemini 1.5 Flash</p>
           </div>
         </div>
         <div className="flex items-center gap-2">
           {conciseMode && (
-            <span className="bg-primary/10 text-primary px-2 py-1 rounded-full text-xs hidden sm:inline-block">
-              Concise Mode Active
+            <span className="bg-gradient-to-r from-primary/20 to-secondary/20 text-primary px-3 py-1.5 rounded-full text-xs font-medium hidden sm:inline-block animate-pulse-slow">
+              ✨ Concise Mode
             </span>
           )}
           <Select value={selectedDomain} onValueChange={(v) => setSelectedDomain(v as StartupDomain)}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[200px] border-primary/20 hover:border-primary transition-colors">
               <SelectValue placeholder="Select domain" />
             </SelectTrigger>
             <SelectContent>
@@ -227,13 +220,14 @@ const ChatInterface = () => {
         </div>
       </div>
 
-      <div className="flex-grow p-4 overflow-y-auto message-container">
-        {messages.map((message) => (
+      <div className="flex-grow p-6 overflow-y-auto message-container bg-gradient-to-b from-background to-muted/20">
+        {messages.map((message, index) => (
           <div
             key={message.id}
-            className={`flex mb-4 ${
+            className={`flex mb-6 animate-fade-in ${
               message.role === "user" ? "justify-end" : "justify-start"
             }`}
+            style={{ animationDelay: `${index * 0.1}s` }}
           >
             <div
               className={`max-w-[80%] p-3 rounded-lg ${
@@ -276,38 +270,40 @@ const ChatInterface = () => {
       </div>
 
       <div className="p-4 border-t bg-background">
-        <div className={`flex items-center mb-2 p-2 rounded border ${conciseMode ? 'bg-primary/10 border-primary' : 'border-muted'}`}>
-          <div className="flex items-center space-x-2">
+        <div className={`flex items-center mb-3 p-4 rounded-xl border ${conciseMode ? 'bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/30' : 'border-muted'}`}>
+          <div className="flex items-center space-x-3">
             <input
               type="checkbox"
-              id="conciseMode"
-              checked={conciseMode}
               onChange={(e) => setConciseMode(e.target.checked)}
-              className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+              checked={conciseMode}
+              className="h-5 w-5 rounded-lg border-gray-300 text-primary focus:ring-primary cursor-pointer"
             />
-            <label htmlFor="conciseMode" className="text-sm font-medium">
-              Concise Mode {conciseMode && '(Active)'}
+            <label className="text-sm font-semibold cursor-pointer select-none">
+              Concise Mode {conciseMode && '(✨ Quick bullet points)'}
             </label>
           </div>
-          <div className="text-xs ml-2 text-muted-foreground">
-            {conciseMode
-              ? "Generating bullet-point format with only essential information"
-              : "Generate comprehensive responses with detailed explanations"}
+          <div className="text-xs ml-3 text-muted-foreground flex items-center gap-2">
+            {conciseMode ? (
+              <><span className="text-primary">●</span> Generating concise bullet points</>
+            ) : (
+              <><span className="text-secondary">●</span> Detailed comprehensive responses</>
+            )}
           </div>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           <Input
-            placeholder={conciseMode ? "Ask for concise bullet points..." : "Ask your AI co-founder..."}
+            placeholder={conciseMode ? "Ask for quick bullet points..." : "Ask your AI co-founder anything..."}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isLoading}
-            className="flex-grow"
+            className="flex-grow border-2 focus:border-primary transition-colors"
           />
           <Button
             onClick={handleSendMessage}
             disabled={!inputValue.trim() || isLoading}
+            className="btn-glow px-6"
           >
             {isLoading ? (
               <Loader2 className="h-4 w-4 animate-spin" />

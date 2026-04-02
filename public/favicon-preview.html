@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StartupSync Favicon Preview</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    .container {
+      text-align: center;
+      background: white;
+      padding: 3rem;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    h1 {
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      color: #666;
+      margin-bottom: 2rem;
+    }
+    
+    .favicon-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    
+    .favicon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      transition: transform 0.3s;
+    }
+    
+    .favicon-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .favicon-item img {
+      width: 96px;
+      height: 96px;
+      margin-bottom: 1rem;
+    }
+    
+    .favicon-item.large img {
+      width: 128px;
+      height: 128px;
+    }
+    
+    .favicon-item.small img {
+      width: 48px;
+      height: 48px;
+    }
+    
+    .favicon-item.tiny img {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .label {
+      font-size: 0.875rem;
+      color: #4a5568;
+      font-weight: 500;
+    }
+    
+    .browser-preview {
+      margin-top: 3rem;
+      padding: 2rem;
+      background: #edf2f7;
+      border-radius: 12px;
+      width: 100%;
+    }
+    
+    .browser-tab {
+      display: flex;
+      align-items: center;
+      background: white;
+      padding: 0.75rem 1rem;
+      border-radius: 8px 8px 0 0;
+      width: fit-content;
+      margin: 0 auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .browser-tab img {
+      width: 20px;
+      height: 20px;
+      margin-right: 0.5rem;
+    }
+    
+    .browser-tab span {
+      font-size: 0.875rem;
+      color: #2d3748;
+    }
+    
+    .features {
+      margin-top: 2rem;
+      text-align: left;
+      padding: 1.5rem;
+      background: #f0fff4;
+      border-radius: 12px;
+      border-left: 4px solid #48bb78;
+    }
+    
+    .features h3 {
+      color: #2f855a;
+      margin-top: 0;
+    }
+    
+    .features ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .features li {
+      padding: 0.5rem 0;
+      color: #276749;
+      display: flex;
+      align-items: center;
+    }
+    
+    .features li:before {
+      content: "✓";
+      margin-right: 0.5rem;
+      font-weight: bold;
+      color: #48bb78;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 StartupSync Favicon</h1>
+    <p>Your enhanced AI co-founder compass icon</p>
+    
+    <div class="favicon-showcase">
+      <div class="favicon-item large">
+        <img src="/favicon.svg" alt="Large Favicon">
+        <span class="label">128×128</span>
+      </div>
+      
+      <div class="favicon-item">
+        <img src="/favicon.svg" alt="Medium Favicon">
+        <span class="label">96×96</span>
+      </div>
+      
+      <div class="favicon-item small">
+        <img src="/favicon.svg" alt="Small Favicon">
+        <span class="label">48×48</span>
+      </div>
+      
+      <div class="favicon-item tiny">
+        <img src="/favicon.svg" alt="Tiny Favicon">
+        <span class="label">32×32</span>
+      </div>
+    </div>
+    
+    <div class="browser-preview">
+      <h3 style="text-align: center; color: #4a5568; margin-bottom: 1rem;">Browser Tab Preview</h3>
+      <div class="browser-tab">
+        <img src="/favicon.svg" alt="Favicon">
+        <span>StartupSync - Your AI Co-Founder</span>
+      </div>
+    </div>
+    
+    <div class="features">
+      <h3>✨ Design Features</h3>
+      <ul>
+        <li><strong>Compass Theme:</strong> Represents guidance and direction for startups</li>
+        <li><strong>Blue Gradient:</strong> Matches your brand colors (blue to cyan)</li>
+        <li><strong>Red Needle:</strong> Points northeast symbolizing growth and progress</li>
+        <li><strong>AI Sparkles:</strong> Tech-forward sparkle effects around the compass</li>
+        <li><strong>Clean Design:</strong> Simplified markers for better scalability</li>
+        <li><strong>Vector Quality:</strong> Perfect at any size from 16px to 512px</li>
+      </ul>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  "name": "startupsync-favicon-generator",
+  "description": "Generate favicon assets from SVG",
+  "type": "module",
+  "scripts": {
+    "generate": "node generate-favicons.js"
+  }
+}

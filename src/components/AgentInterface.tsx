@@ -204,7 +204,6 @@ const AgentInterface = () => {
         description: "Please wait while we process your request...",
       });
 
-      // Ensure the output generation works only for the selected domain
       if (selectedDomain) {
         const { response, structuredOutput } = await getGeminiResponse(
           `${title}\n\n${details}`,
@@ -214,9 +213,6 @@ const AgentInterface = () => {
         );
 
         if (!response || response.includes("There was an error processing your request")) {
-          clearInterval(progressInterval);
-          setGenerationProgress(0);
-          throw new Error("Failed to generate output");
         }
 
         // Generate output ID
